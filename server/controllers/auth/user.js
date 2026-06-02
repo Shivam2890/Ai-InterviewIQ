@@ -6,7 +6,7 @@ import { generateJwtToken } from "../utils/generateJwtToken.js";
 export const signup = async (req, res) => {
 
     try {
-        const { name, email, password, age, phone } = req.body
+        const { name, email, password, dob, phone } = req.body
 
         // check if the eamildi is vlaid form valid-users collection
         const isValidUser = await mongoose.connection.collection(process.env.VALID_USERS_COLLECTION).findOne({ email })
@@ -61,7 +61,7 @@ export const login = async (req, res) => {
         const userDetails = { // trying to not give the password
             name: user.name,
             email: user.email,
-            age: user.age || null,
+            dob: user.dob || null,
             phone: user.phone
         }
 

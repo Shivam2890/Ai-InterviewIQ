@@ -4,6 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import authRouter from './routes/auth.js';
+import userRouter from './routes/user.js';
 
 const app = express()
 app.use(express.json())
@@ -20,6 +21,8 @@ mongoose.connect(process.env.DB_URI).then(() => {
 // })
 
 app.use('/auth', authRouter)
+
+app.use('/user', userRouter)
 
 const port = process.env.PORT
 app.listen(port, () => {

@@ -1,8 +1,49 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { UserProvider } from './ContextProvider'
+import moment from 'moment';
+import PopUp from './PopUp';
+import UpdateProfileForm from './UpdateProfileForm';
 
-const Profile = () => {
+function Profile() {
+  const { userDetails } = useContext(UserProvider)
+
+  const [isEditEnabled, setIsEditEnabled] = useState(false)
+
+  function calculateAge(dob) {
+    if (!dob) return null
+
+    const age = moment().diff(dob, 'years')
+    console.log(dob, new Date(), age, "dates")
+    return age
+  }
+
+  console.log(userDetails, 'user details')
   return (
-    <div>Profile</div>
+    <div className='h-screen relative'>
+
+      {isEditEnabled ? <PopUp setIsEditEnabled={setIsEditEnabled} RenderComponent={UpdateProfileForm} /> : null}
+
+      <div className='h-40 mt-10 border'>
+
+        <div className='flex justify-end '>
+          <button className='mr-2' onClick={() => setIsEditEnabled(!isEditEnabled)}>Edit</button>
+        </div>
+
+        <div>
+          <p>Name : {userDetails.name}</p>
+        </div>
+        <div>
+          <p>Email : {userDetails.email}</p>
+        </div>
+        <div>
+          <p>Age : {userDetails.dob ? calculateAge(userDetails.dob) : "N/A"}</p>
+        </div>
+        <div>
+          <p>Phone : {userDetails.phone}</p>
+        </div>
+
+      </div>
+    </div>
   )
 }
 

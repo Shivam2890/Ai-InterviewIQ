@@ -7,7 +7,7 @@ const Signup = () => {
     const [formValues, setFormValues] = useState({
         name: "",
         email: "",
-        age: "",
+        dob: "",
         phone: "",
         password: "",
         confirmPassword: "",
@@ -124,13 +124,13 @@ const Signup = () => {
 
                                 <div>
                                     <label className="mb-2 block text-sm text-slate-300">
-                                        Age
+                                        Dob
                                     </label>
 
                                     <input
-                                        type="number"
-                                        name="age"
-                                        value={formValues.age}
+                                        type="date"
+                                        name="dob"
+                                        value={formValues.dob}
                                         onChange={updateFormData}
                                         placeholder="22"
                                         className="w-full rounded-xl border border-slate-700 bg-[#111118] px-4 py-3 text-sm text-white outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
