@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { UserProvider } from './ContextProvider';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { api } from '../apis/interceptors';
 
 const UpdateProfileForm = () => {
     const { userDetails } = useContext(UserProvider)
@@ -23,9 +24,10 @@ const UpdateProfileForm = () => {
         }
 
         try {
-            const update = await axios.patch(`http://localhost:4000/user/updateProfile`, updateRecords, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+            // const update = await axios.patch(`http://localhost:4000/user/updateProfile`, updateRecords, {
+            //     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            // })
+            const update = await api.patch('/user/updatedProfile', updateRecords)
             console.log(update)
         } catch (err) {
             console.log(err.message)

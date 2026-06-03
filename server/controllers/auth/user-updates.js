@@ -1,10 +1,29 @@
 import jwt from "jsonwebtoken"
+import { User } from "../../models/User.js"
 
-export function updateuser(req, res) {
-    const token = req.header.authorization
-    console.log(token, 'token form update-user')
+export async function updateuser(req, res) {
 
-    const payload = jwt.verify(token, process.env.TOKEN_SECRET_KEY)
-    console.log(payload)
-    res.status(200).json({ message: "ok" })
+    const userId = req.user.id
+    const body = req.body
+
+    try {
+        //exclue the password and email
+        if (body.password) {
+            delete body.password
+        }
+        if (body.email) {
+            delete body.email
+        }
+        // option object- new:true - give updated data,
+        // runValidators: true , checking validation from the schema
+        const updatedUser = await User.findByIdAndUpdate(userId, body, { new: true, runValidators: true }).select('-password') // select in mongoose which include and exclude the data to the user
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "user not found" })
+        }
+        res.status(201).json({ message: "user updated", updatedUser })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+
 }

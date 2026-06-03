@@ -55,7 +55,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "Incorrect password" })
         }
 
-        // generate jwt token
+        // generate jwt token -- ./utils/generateJwtToken.js
         const token = generateJwtToken({ email: user.email, id: user._id })
 
         const userDetails = { // trying to not give the password
