@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import authRouter from './routes/auth.js';
 import userRouter from './routes/user.js';
+import interviewRouter from './routes/interview.js';
 
 const app = express()
 app.use(express.json())
@@ -23,6 +24,8 @@ mongoose.connect(process.env.DB_URI).then(() => {
 app.use('/auth', authRouter)
 
 app.use('/user', userRouter)
+
+app.use('/interview', interviewRouter)
 
 const port = process.env.PORT
 app.listen(port, () => {

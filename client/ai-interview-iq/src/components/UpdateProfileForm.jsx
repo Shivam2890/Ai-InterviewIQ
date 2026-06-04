@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { UserProvider } from './ContextProvider';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { api } from '../apis/interceptors';
+import { api } from '../apis/interceptors.js';
 
 const UpdateProfileForm = () => {
     const { userDetails } = useContext(UserProvider)
@@ -20,7 +20,7 @@ const UpdateProfileForm = () => {
         const updateRecords = {}
 
         for (let key in userDetails) {
-            if (userDetails[key] !== user[key]) updateRecords[key] = user.name
+            if (userDetails[key] !== user[key]) updateRecords[key] = user[key]
         }
 
         try {
