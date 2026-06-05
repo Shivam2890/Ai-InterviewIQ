@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 // axios instances and tag token to the headers
 const api = axios.create('http://localhost:4000')
+
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token")
 
