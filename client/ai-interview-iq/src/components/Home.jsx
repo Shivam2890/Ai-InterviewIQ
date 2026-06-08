@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { api } from '../apis/interceptors.js'
 import axios from 'axios'
+import socket from '../interviewSocket.js'
+import { data } from 'react-router-dom'
 
 const Home = () => {
   const aiContentContainer = useRef()
@@ -34,17 +36,45 @@ const Home = () => {
     console.log('calling ai', userText)
   }
 
+  function firstMessage() {
+    socket.emit('first-message', { data: 'lets start interview' })
+  }
 
+  function startInterview() {
+    socket.emit('start-interview', { data: 'interview started' })
+  }
+  const interviewQue = ''
+  useEffect(() => {
+    socket.connect()
+
+    socket.on('confirm-interview', (data) => {
+      console.log(data, 'message recieved form backend')
+    })
+    socket.on('start-interview', (data) => {
+      console.log(data,'start-interview data')
+      interviewQue = data
+    })
+  }, [])
 
   return (
     <div className='has-[900px]'>
-      <form className='flex justify-center gap-4 mt-4' onSubmit={callAi}>
+      {/* <form className='flex justify-center gap-4 mt-4' onSubmit={callAi}>
         <textarea type='text' className='w-80 border shadow-2xl ' placeholder='Ask AI' value={userText} onChange={(e) => setUserText(e.target.value)} />
         <input type="submit" value='Submit' disabled={!userText.length ? true : false} className={`${!userText.length ? 'bg-blue-100' : 'bg-blue-200 cursor-pointer'} rounded text-white`} />
       </form>
 
       <div ref={aiContentContainer}>
 
+      </div> */}
+
+      <button onClick={firstMessage}>Frist Message</button>
+      <br />
+      <button>Confirsm message</button>
+      <br />
+      <button onClick={startInterview}>start</button>
+
+      <div>
+        <p>{interviewQue}</p>
       </div>
     </div>
   )
