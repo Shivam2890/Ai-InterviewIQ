@@ -8,12 +8,16 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 export async function liveInterview(req, res) {
+
+    console.log("callback calling")
+
+    
     if (!req.body) {
         res.status(401).json({ message: 'no prompt is provided' })
     }
 
     const body = req.body
-    console.log("calling api ",body)
+    console.log("calling api ", body)
 
     try {
 
@@ -34,10 +38,10 @@ export async function liveInterview(req, res) {
             model: 'gemini-2.5-flash',
             contents: body.prompt,
         });
-        console.log(response.text);
+        console.log(response.text, 'response form the ai.models.generatedContents');
 
 
-        res.status(200).json({ message: "ok", data :response.text })
+        res.status(200).json({ message: "ok", data: response.text })
     } catch (err) {
         res.status(500).json({ message: err.message })
     }

@@ -3,10 +3,11 @@ import { toast } from "react-toastify";
 
 
 // axios instances and tag token to the headers
-const api = axios.create('http://localhost:4000')
+const api = axios.create({baseURL : 'http://localhost:4000'})
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token")
+    console.log(token, "here it comes")
 
     if (token) {
         // redirectToSignup()

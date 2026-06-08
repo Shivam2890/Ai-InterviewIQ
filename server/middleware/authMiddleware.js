@@ -2,11 +2,15 @@ import jwt from 'jsonwebtoken';
 
 export function authMiddleware(req, res, next) {
 
+    console.log("atuh calling")
+
     if (!req.headers.authorization) {
         return res.status(401).json({ message: 'token is undefined' })
     }
 
+    
     const token = req.headers.authorization.split(" ")[1]
+    console.log(token,'token')
 
     if (!token) {
         return res.status(401).json({ message: 'token not provided' })

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { api } from '../apis/interceptors'
+import { api } from '../apis/interceptors.js'
 import axios from 'axios'
 
 const Home = () => {
@@ -16,11 +16,14 @@ const Home = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/interview/liveInterview', { prompt: userText }
-        , {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-        }
-      )
+      // const response = await axios.post('http://localhost:4000/interview/liveInterview', { prompt: userText }
+      //   , {
+      //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      //   }
+      // )
+      const response = await api.post('/interview/liveInterview', {
+        prompt: userText
+      })
       console.log(response, response?.data?.data, 'ai response')
       aiContentContainer.current.innerText = response.data.data
     } catch (err) {
