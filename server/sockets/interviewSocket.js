@@ -4,9 +4,10 @@ function interviewSocket(socket) {
 
         socket.emit('confirm-interview', { message: 'first message recieved good to start interview' })
     })
+    socket.emit('start-interview', { message: 'interview question no 1' })
 
-    socket.on('start-interview', (data) => {
-        console.log(data, 'start-interview')
-        socket.emit('start-interview', { message: 'interview question no 1' })
+    socket.on("disconnect", (data) => {
+        console.log("socket connection closed")
     })
 }
+export default interviewSocket

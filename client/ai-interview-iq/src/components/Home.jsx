@@ -4,6 +4,7 @@ import { api } from '../apis/interceptors.js'
 import axios from 'axios'
 import socket from '../interviewSocket.js'
 import { data } from 'react-router-dom'
+import { startListening, textToSpeech } from '../utils/speech.js'
 
 const Home = () => {
   const aiContentContainer = useRef()
@@ -43,18 +44,27 @@ const Home = () => {
   function startInterview() {
     socket.emit('start-interview', { data: 'interview started' })
   }
-  const interviewQue = ''
+  let interviewQue = ''
   useEffect(() => {
     socket.connect()
 
     socket.on('confirm-interview', (data) => {
-      console.log(data, 'message recieved form backend')
+
+      textToSpeech(data.message)
+      console.log(data.message, 'message recieved form backend')
     })
     socket.on('start-interview', (data) => {
-      console.log(data,'start-interview data')
+
+      console.log(data, 'start-interview data')
       interviewQue = data
+
+      return () => { //clean up 
+        socket.off('confirm-interview')
+        socket.disconnect()
+      }
     })
   }, [])
+  console.log(interviewQue, 'interveiwQUes')
 
   return (
     <div className='has-[900px]'>
@@ -71,10 +81,17 @@ const Home = () => {
       <br />
       <button>Confirsm message</button>
       <br />
-      <button onClick={startInterview}>start</button>
+      <button onClick={startInterview}>start-interview</button>
 
       <div>
         <p>{interviewQue}</p>
+      </div>
+      <br />
+      <div>
+        <button
+          className='cursor-pointer'
+          onClick={startListening}
+        >start</button>
       </div>
     </div>
   )

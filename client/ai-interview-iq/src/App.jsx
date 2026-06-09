@@ -40,7 +40,7 @@ const App = () => {
               <Route path='/login' element={<Login />} />
             </Route>
 
-            <Route element={<AuthProtectedRoute />}>
+            {/* <Route element={<AuthProtectedRoute />}> */}
               {/* <Route element={<Sidebar />}> */}
               <Route path='*' element={<FallBackComponents />} />
               <Route path='/' element={<Home />} />
@@ -50,7 +50,7 @@ const App = () => {
             </Route>
             {/* </Route> */}
 
-          </Route>
+          {/* </Route> */}
 
 
 

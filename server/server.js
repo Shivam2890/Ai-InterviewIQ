@@ -8,6 +8,7 @@ import userRouter from './routes/user.js';
 import interviewRouter from './routes/interview.js';
 import http from 'http';
 import { Server } from 'socket.io';
+import interviewSocket from './sockets/interviewSocket.js';
 
 const app = express()
 app.use(express.json())
@@ -31,11 +32,12 @@ app.use('/interview', interviewRouter)
 
 //create a new for socket.io
 const server = http.createServer()
-//once connection io established execute callback
+// Create instance for socket io by providing server info
 const io = new Server(server, {
     cors: "*",
     methods: ["GET", "POST"]
 })
+//once connection io established execute callback
 
 io.on('connection', (socket) => {
     console.log(socket.id, 'socket id')
