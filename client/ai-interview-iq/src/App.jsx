@@ -40,15 +40,15 @@ const App = () => {
               <Route path='/login' element={<Login />} />
             </Route>
 
-            {/* <Route element={<AuthProtectedRoute />}> */}
-              {/* <Route element={<Sidebar />}> */}
+            <Route element={<AuthProtectedRoute />}>
+              {/* <Route element={<Sidebar />}> */} // this is comment , another approch
               <Route path='*' element={<FallBackComponents />} />
               <Route path='/' element={<Home />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/new-interview' element={<Newinterview />} />
               <Route path='/history' element={<History />} />
             </Route>
-            {/* </Route> */}
+            </Route>
 
           {/* </Route> */}
 

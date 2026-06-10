@@ -185,6 +185,7 @@ const Login = () => {
             hover:scale-[1.02]
             hover:shadow-[0_10px_40px_rgba(99,102,241,0.35)]
           '
+          value='Submit'
         >
           Login to AI Interview
         </button>
