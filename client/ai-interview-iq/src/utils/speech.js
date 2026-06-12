@@ -1,7 +1,7 @@
 import { toast } from "react-toastify"
 
-function textToSpeech(text) {
-    console.log("enter text to speech")
+function textToSpeech(text, setIsAiSpeaking) {
+    // console.log("enter text to speech")
     if (!text) {
         toast('text is not provided to speak')
     }
@@ -15,8 +15,15 @@ function textToSpeech(text) {
     speechSynthesis.cancel()
 
     const utterance = new SpeechSynthesisUtterance(text)
+    utterance.onstart = () => {
+        setIsAiSpeaking(true)
+    }
+    utterance.onend = () => {
+        setIsAiSpeaking(false)
+    }
     // console.log(utterance, 'uttereance')
     speechSynthesis.speak(utterance)
+
 }
 let recognition = null
 function startListening(onTranscript) {
@@ -28,6 +35,7 @@ function startListening(onTranscript) {
     }
     //create a new instane for speech recoginition
     recognition = new speechRecognition()
+
     recognition.lang = "en-US"
 
     recognition.continuous = true
@@ -40,23 +48,23 @@ function startListening(onTranscript) {
     */
     recognition.interimResults = true
 
-    console.log(recognition, 'recognition')
 
     //execute whenever spoke
     recognition.onresult = (data) => {
 
-        console.log(data, 'data from on result event')
+        // console.log(data, 'data from on result event')
 
         let transcript = ""
         for (let i = 0; i < data.results.length; i++) {
             transcript += data.results[i][0].transcript
         }
-        console.log(transcript, 'transcipt')
+        // console.log(transcript, 'transcipt')
         onTranscript(transcript)
     }
     //start listning
     recognition.start()
 }
+
 function stopListening() {
     if (recognition) {
         recognition.stop()
