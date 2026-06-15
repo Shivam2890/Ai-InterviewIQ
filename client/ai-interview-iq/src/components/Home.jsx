@@ -89,7 +89,7 @@ const Home = () => {
       setCurrentStage(INTERVIEW_STAGE.DID_NOT_ANSWER_YET)
       setButtonColor("bg-blue-400")
 
-      //
+      //  
     }
   }
 

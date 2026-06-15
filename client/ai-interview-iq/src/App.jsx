@@ -11,6 +11,7 @@ import Sidebar from './components/Sidebar';
 import Profile from './components/Profile';
 import Newinterview from './pages/Newinterview';
 import History from './pages/History';
+import Dashboard from './pages/Dashboard';
 
 const App = () => {
 
@@ -44,11 +45,12 @@ const App = () => {
               {/* <Route element={<Sidebar />}> */} // this is comment , another approch
               <Route path='*' element={<FallBackComponents />} />
               <Route path='/' element={<Home />} />
+              <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/new-interview' element={<Newinterview />} />
               <Route path='/history' element={<History />} />
             </Route>
-            </Route>
+          </Route>
 
           {/* </Route> */}
 
