@@ -47,7 +47,7 @@ const TechnicalScoreChart = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis width="auto" domain={[0, 10]}
-                    dots={[0, 2, 4, 6, 8, 10]} />
+                    ticks={[0, 2, 4, 6, 8, 10]} label={{value:'Technical Score', angle:-90, position:'insideLeft    '}} />
                 <Tooltip />
                 <Legend />
                 <Line

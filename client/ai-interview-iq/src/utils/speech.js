@@ -6,7 +6,7 @@ function textToSpeech(text, setIsAiSpeaking) {
         toast('text is not provided to speak')
     }
     const speechSynthesis = window.speechSynthesis
-    1
+
     if (!speechSynthesis) {
         toast('Browser not supporting speech, Please enable speaker from browser')
         return
@@ -23,19 +23,22 @@ function textToSpeech(text, setIsAiSpeaking) {
     }
     // console.log(utterance, 'uttereance')
     speechSynthesis.speak(utterance)
-
 }
+
 let recognition = null
 function startListening(onTranscript) {
     //check if browser support speech recoginition
-    const speechRecognition = window.SpeechRecognition || window.WebKitSpeechRecongnition;
+    const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    console.log("SpeechRecognition:", window.SpeechRecognition);
+    console.log("webkitSpeechRecognition:", window.webkitSpeechRecognition);
+
     if (!speechRecognition) {
         toast('your browser doesnt suppoest speech')
         return
     }
     //create a new instane for speech recoginition
-    recognition = new speechRecognition()
-
+    recognition = new SpeechRecognition()
     recognition.lang = "en-US"
 
     recognition.continuous = true
@@ -47,8 +50,6 @@ function startListening(onTranscript) {
         this is my answer
     */
     recognition.interimResults = true
-
-
     //execute whenever spoke
     recognition.onresult = (data) => {
 
@@ -58,7 +59,7 @@ function startListening(onTranscript) {
         for (let i = 0; i < data.results.length; i++) {
             transcript += data.results[i][0].transcript
         }
-        // console.log(transcript, 'transcipt')
+        console.log(transcript, 'transcipt')
         onTranscript(transcript)
     }
     //start listning

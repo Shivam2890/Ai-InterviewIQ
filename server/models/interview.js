@@ -41,7 +41,6 @@ const interviewSchema = new mongoose.Schema({
     endedAt: {
         type: Date
     }
-
 })
 
 export const Interview = mongoose.model("Interview", interviewSchema)

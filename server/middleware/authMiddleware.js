@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export function authMiddleware(req, res, next) {
+function authMiddleware(req, res, next) {
 
     console.log("atuh calling")
 
@@ -8,9 +8,9 @@ export function authMiddleware(req, res, next) {
         return res.status(401).json({ message: 'token is undefined' })
     }
 
-    
+
     const token = req.headers.authorization.split(" ")[1]
-    console.log(token,'token')
+    console.log(token,'token in auth')
 
     if (!token) {
         return res.status(401).json({ message: 'token not provided' })
@@ -36,3 +36,32 @@ export function authMiddleware(req, res, next) {
         res.status(500).json({ message: "internal error" })
     }
 }
+
+function ioMiddlewareToken(socket, next) {
+    const token = socket.handshake.auth.token
+
+    console.log(socket.handshake,'token')
+    if (!token) {
+        socket.emit('auth', { message: 'Token not provided' })
+
+        // socket.off()
+        socket.disconnect(true)
+
+        return
+    }
+
+    try {
+        const userData = jwt.verify(token, process.env.TOKEN_SECRET_KEY)
+        socket.userId = userData.id
+        next()
+    } catch (err) {
+        console.log(err, 'error while extreacting token')
+        // socket.off()
+        socket.disconnect(true)
+
+
+        // create a error middleware and pass it there
+    }
+}
+
+export { authMiddleware , ioMiddlewareToken }

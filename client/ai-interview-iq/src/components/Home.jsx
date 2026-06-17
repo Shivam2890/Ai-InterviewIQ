@@ -96,13 +96,11 @@ const Home = () => {
   function handleStartInterview() {
     try {
       socket.emit('start-interview', { message: "start interview console" })
-
       // setQuestion(data)
     } catch (err) {
-      console.log(err)
+      console.log(err, 'error form handleStartInterview')
     }
   }
-
 
   useEffect(() => {
     socket.connect()
@@ -126,12 +124,6 @@ const Home = () => {
     socket.on('conversation-data', (data) => {
       console.log(data, 'formt the conversation data')
     })
-
-    // socket.on('start-interview', (data) => {
-
-    //   console.log(data, 'start-interview data')
-    //   interviewQue = data
-    // })
 
     return () => { //clean up 
       socket.off('confirm-interview')

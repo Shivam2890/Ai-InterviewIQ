@@ -40,27 +40,24 @@ export async function liveInterview(req, res) {
         });
         console.log(response.text, 'response form the ai.models.generatedContents');
 
-        //GROQ AI
-
-
         res.status(200).json({ message: "ok", data: response.text })
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
-
 }
 
 async function askAI({ message }) {
     const prompt = message.map((item) => {
         return `${item.role} : ${item.content}`
-    })
+    }).join("/n")
 
     try {
+
+        //gemini
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt
         });
-
         return response.text
 
         //groq
@@ -71,13 +68,43 @@ async function askAI({ message }) {
 
         // const response = await client.responses.create({
         //     model: "openai/gpt-oss-20b",
-        //     input: "Explain the importance of fast language models",
+        //     input: prompt,
         // });
-        // console.log(response.output_text);
+
+        // console.log(response.output_text, 'response of askAi,groq');
+        // return response.output_text
 
     } catch (err) {
         console.log(err, 'error while calling ai`')
         return Promise.reject(err)
     }
 }
-export { askAI }
+
+// Get return data in json format
+async function getFeedbackFromAI({ messages }) {
+    console.log(messages)
+
+    const prompt = messages.map((item) => {
+
+        // console.log(messages,prompt)
+        return `${item.role} : ${item.content}`
+    }).join("/n")
+
+    try {
+
+        // GEMINI AI
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json"
+            }
+        });
+
+        return response.text
+
+    } catch (err) {
+        return Promise.reject(err)
+    }
+}
+export { askAI, getFeedbackFromAI }
